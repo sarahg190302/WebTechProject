@@ -1,0 +1,65 @@
+{% include "header.html" %}
+{% set active_page = 'home' %}
+
+<div class="col col-10">
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            
+<h2 class="page-head">
+    Hi, {{ current_user.username }}
+</h2>
+</div>
+</div>
+<!--<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Tracker</th>
+        <th>Last Tracked</th>
+        <th></th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in trackers %}
+    <tr>
+        <td class="align-middle" data-bs-toggle="tooltip" data-bs-placement="left" title="Show info"><a href="/tracker/{{i['id']}}/show/w">{{i['name']}}</a></td>
+        <td class="align-middle">{{i['updated_at']}}</td>
+        <td class="text-center align-middle" data-bs-toggle="tooltip" data-bs-placement="left" title="Log a value"><a href="/tracker/{{i['id']}}/log/add"><i class="fa fa-solid fa-plus"></i></a></td>
+        <td class="text-center align-middle">
+           
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table> -->
+
+<div class="row">
+{% for i in trackers %}
+<div class="col-sm-4">
+<div class="card" style="width: 20rem;min-height:250px;margin:10px;">
+    <h5 class="card-header">
+            <a href="/tracker/{{i['id']}}/show">{{i['name'] | e}}
+            <i class="fa fa-regular fa-info icon-right"></i></a>
+    </h5>
+    <div class="card-body">
+      <h5 class="card-title"></h5>      
+      <p class="card-text">{{i['description'] | e }}</p>
+        
+      <p class="card-text">Last updated: {{i['updated_at'] | e }}</p>
+      
+      
+    </div>
+    <div class="text-center card-footer">      
+        <a href="/tracker/{{i['id']}}/log/add"><button type="button card-link" class="btn btn-outline-primary">Log value</button></a>
+        <a href="/tracker/{{i['id']}}/edit"><button type="button card-link" class="btn btn-outline-info">Edit</button></a>
+        <a href="/tracker/{{i['id']}}/delete"><button type="button card-link" class="btn btn-outline-danger">Delete</a></button></a>
+        </div>
+  </div>
+
+</div>
+{% endfor %}
+</div>
+
+</div>
+
+{% with title=title %}{% include "footer.html" %}{% endwith %}

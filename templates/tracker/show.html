@@ -1,0 +1,250 @@
+{% with title=title %}{% include "header.html" %}{% endwith %}
+
+
+<div class="row">
+    <div class="col col-8">
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            
+    <h2 class="page-head">
+        {{tracker['name']}} - Tracker
+    </h2>
+    </div>
+    <!--<hr class="my-4">-->
+    </div>
+</div>
+<div class="col col-8">
+
+    <div class="col-12 border cchart">
+    <div id="myfirstchart1"></div>
+    </div>
+
+<h2 class="page-head">Logs</h2>
+<table class="table table-bordered display nowrap dataTable dtr-inline collapsed" id="logsTable">
+    <thead class="thead-dark">
+        <tr>
+            <th>Sr. No</th>
+            <th>Date-Time</th>
+            <th>Value</th>
+            <th>Note</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{log['timestamp'].strftime("%I:%M:%S %p, %B %d, %Y")}}</td>
+            <td>{% for i in log['value'] %}{{i}}<br>{% endfor %}</td>
+            <td>{{log['note']}}</td>
+            <td><div class="btn-group" role="group" aria-label="Button group with nested dropdown">              
+                <div class="btn-group" role="group">
+                  <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
+                  <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li><a class="dropdown-item" href="{{url_for('edit_tracker_log', tracker_id=tracker['id'], log_id=log['id'])}}">Edit</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('delete_tracker_log', tracker_id=tracker['id'], log_id=log['id'])}}">Delete</a></li>
+                  </ul>
+                </div>
+              </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+<div class="col col-4">
+    <div class="container">
+        {% if tracker['type'] in ['integer', 'float', 'timerange'] %}
+        <div class="row border csidebarfirst">
+            <div class="row justify-content-md-center"><h4 class="page-head">Period</h4></div>
+            <div class="form-group">
+                <select name = 'period' id = 'period' class="form-control" data-id="{{tracker['id']}}">
+                    <option value="w" {% if period == 'w'%} selected {% endif %}>Last 7 days</option>
+                    <option value="m" {% if period == 'm'%} selected {% endif %}>Last 30 days</option>
+                    <option value="d" {% if period == 'd'%} selected {% endif %}>Today</option>
+                    <option value="a" {% if period == 'a'%} selected {% endif %}>All</option>
+                </select>
+            </div>            
+        </div>
+        {% endif %}
+        {% if tracker['type'] in ['integer', 'float'] %}
+        <div class="row border csidebar">
+            <div class="row justify-content-md-center"><h4 class="page-head">Statistics</h4></div>
+            <div class="form-group">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Mean</td>
+                        <td>{{extra['mean']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Median</td>
+                        <td>{{extra['median']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Mode</td>
+                        <td>{% if extra['mode'] != None %}{% if extra['mode'].count > 1 %}{{extra['mode'].mode[0]}}{% else %}None{% endif %}{% else %}None{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>25th Percentile</td>
+                        <td>{{extra['25th']}}</td>
+                    </tr>
+                    <tr>
+                        <td>75th Percentile</td>
+                        <td>{{extra['75th']}}</td>
+                    </tr>
+                </table>
+            </div>            
+        </div>
+        {% endif %}
+        <div class="row border {% if tracker['type'] not in ['integer', 'float', 'timerange'] %}csidebarfirst{% else %}csidebar{% endif %}">
+            <div class="row justify-content-md-center"><h4 class="page-head">Tracker information</h4></div>
+            <table class="table table-borderless">
+                <tr>
+                    <td>ID</td>
+                    <td>{{tracker['id']}}</td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>{{tracker['name']}}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{tracker['description']}}</td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>{% if tracker['type'] == 'ms' %}Multi-Select Choices{% elif tracker['type'] == 'float' %}Numerical (Decimal){% elif tracker['type'] == 'timerange' %}Time Range{% else %}Numerical (integer){% endif %}</td>
+                </tr>
+                <tr>
+                    <td>Settings</td>
+                    <td>{{tracker['settings']}}</td>
+                </tr>
+                <tr>
+                    <td>Action</td>
+                    <td><a href="/tracker/{{tracker['id']}}/log/add"><button type="button card-link" class="btn btn-sm btn-outline-primary">Log value</button></a>
+                        <a href="/tracker/{{tracker['id']}}/edit"><button type="button card-link" class="btn btn-sm btn-outline-info">Edit</button></a>
+                        <a href="/tracker/{{tracker['id']}}/delete"><button type="button card-link" class="btn btn-sm btn-outline-danger">Delete</a></button></a></td>
+                </tr>
+                <tr>
+                    <td>Extra</td>                    
+                    <td><div class="btn-group" role="group" aria-label="Button group with nested dropdown">              
+                        <div class="btn-group" role="group">
+                          <button id="btnGroupDrop1" type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
+                          <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <li><a class="dropdown-item" href="/tracker/{{tracker['id']}}/autolog/{% if tracker['type'] == 'timerange' %}25{% else %}200{% endif %}">Autogen Values</a></li>
+                            <li><a class="dropdown-item" href="/tracker/{{tracker['id']}}/logs/delete_all">Delete All Logs</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+</div>
+</div>
+</div>
+
+<script>
+    window.onload = function(){
+        {% if tracker['type'] in ['integer', 'float'] %}
+        create_line_chart('myfirstchart1', [
+            {% for i in chart %}{ the_d: '{{i}}', value: {{chart[i]}} },
+            {% endfor %}
+        ], 'the_d', ['value'], ['Values']);
+        
+        {% elif tracker['type'] == 'ms' %}
+        
+        create_bar_chart('myfirstchart1', [
+            {% for i in chart %}
+                { y: '{{i}}', a: {{chart[i]}} },
+            {% endfor %}
+        ]);
+        
+        {% endif %}
+    }
+    
+    {% if tracker['type'] in ['integer', 'float', 'timerange'] %}
+    const period = document.getElementById('period')
+    period.onchange = function(){
+        window.location = '/tracker/' + period.dataset.id + '/show/' + period.value
+    }
+    {% endif %}
+
+    $(window).resize(function() {
+        {% if tracker['type'] in ['integer', 'float'] %}
+        window.line_chart.redraw();
+        {% elif tracker['type'] == 'ms' %}
+        window.bar_chart.redraw();
+        {% endif %}
+      });
+
+    $(document).ready( function () {
+        $('#logsTable').DataTable( {
+            "order": [[ 0, 'asc']],
+            buttons: [
+                { 
+                    extend: 'copy',
+                    text: 'Copy to clipboard',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                     }
+                },
+                { 
+                    extend: 'csv', 
+                    text: 'Download CSV File',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                     }
+                },
+                { 
+                    extend: 'pdf', 
+                    text: 'Download PDF File',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                     }
+                }
+            ],
+            dom: 'Bfrltip'
+        } );
+    } );
+
+
+    {% if tracker['type'] == 'timerange' %}
+    var options = {
+        series: [
+        {
+          data: [
+            {% for i in chart %}
+            {
+              x: '{{i["note"]}}',
+              y: [
+                new Date('{{i["start"]}}').getTime(),
+                new Date('{{i["end"]}}').getTime()
+              ]
+            },
+            
+            {% endfor %}
+          ]
+        }
+      ],
+        chart: {
+        height: 350,
+        type: 'rangeBar'
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true
+        }
+      },
+      xaxis: {
+        type: 'datetime'
+      }
+      };
+  
+      var chart = new ApexCharts(document.querySelector("#myfirstchart1"), options);
+      chart.render();
+    {% endif %}
+
+</script>
+{% with title=title %}{% include "footer.html" %}{% endwith %}

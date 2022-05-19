@@ -1,0 +1,102 @@
+{% with title=title %}{% include "header.html" %}{% endwith %}
+
+<div class="col col-11">
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            
+    <h2 class="page-head">
+        {% if edit_mode %}Edit Log{% else %}Log{% endif %} Tracker - {{tracker['name']}}
+    </h2>
+    </div>
+    <!--<hr class="my-4">-->
+    </div>
+
+{% if form %}
+{% for field, errors in form.errors.items() %}
+<div class="alert alert-danger alert-dismissible fade show highest-index" role="alert">
+    <h4 class="alert-heading">Vaidation Error</h4> {{ form[field].label }}: {{ ', '.join(errors) }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+{% endif %}
+
+
+<div class="row justify-content-md-center">
+    <div class="col-md-6">
+
+{% if edit_mode %}
+<form action="/tracker/{{tracker['id']}}/log/{{log['id']}}/edit" method="POST" name="edit_tracker_log_form">
+{% else %}
+<form action="/tracker/{{tracker['id']}}/log/add" method="POST" name="add_tracker_log_form">
+{% endif %}
+    <div class="form-group">
+        <label for="ldate">Timestamp</label>
+        <input id="ldate" class="form-control" name="ldate" required type="text" value="{% if retry %}{{form.ldate.data.strftime(date_format)}}{% elif edit_mode %}{{log['timestamp']}}{% endif %}">
+        <small class="form-text text-muted">Current timestamp, you can change it from the dropdown</small>
+    </div>
+
+{% if (tracker['type'] in ['integer', 'float', 'timerange']) %}
+<div class="form-group">
+    <label for="lvalue">{% if tracker['type'] == 'float' %}Numerical Value (Decimal){% elif tracker['type'] == 'integer' %}Numerical Value (integer){% else %}Time Range{% endif %}</label>
+    <input id="lvalue" name="lvalue" class="form-control" required minlength="1" type="text" value="{% if retry %}{{form.lvalue.data}}{% elif edit_mode %}{{log['value'][0]}}{% endif %}">
+    <small class="form-text text-muted">The value you want to log in {{tracker['type'] | title}} format.</small>
+    
+</div>
+{% elif (tracker['type'] == 'ms') %}
+    <div class="form-group">
+        Select Choices:<br />
+    {% for i in tracker['choices'] %}
+        <input type="checkbox" id="lchoice{{i}}" name="lchoice" class="form-check-input" value="{{i}}" {% if edit_mode %}{% if i|string in log['value'] %}checked{% endif %}{% endif %}>
+        <label class="form-check-label" for="lchoice{{i}}"> {{tracker['choices'][i]}}</label><br>
+    {% endfor %}
+    </div>
+{% endif %}
+
+    <div class="form-group">
+        <label for="lnote">Notes</label> 
+        <textarea class="form-control" id="lnote" placeholder="Anything you wanna say about the information you are logging." name="lnote" maxlength="255">{% if retry %}{{form.lnote.data}}{% elif edit_mode %}{{log['note']}}{% endif %}</textarea>
+    </div>
+    
+    <input name="tid" id="tid" type="hidden" value="{{tracker['id']}}" required>
+    {% if edit_mode %}
+        <input name="lid" id="lid" type="hidden" value="{{log['id']}}" required>
+    {% endif %}
+
+    <div class="form-group">
+        <input id="submit" name="submit" type="submit" class="form-control btn btn-primary" value="Submit">
+    </div>
+
+</form>
+</div>
+</div>
+
+</div>
+<script>
+    window.onload = function(){
+        jQuery('#ldate').datetimepicker({
+            format:'m/d/Y, h:i:s a'
+           });
+
+
+        let loc = window.location.href;
+        var elementExists = document.getElementById("form_validation_error");
+        if (loc.includes('/log/add') & elementExists == null){
+            document.getElementById('ldate').value = new Date().toLocaleString();
+        }
+    }
+
+    {% if tracker['type'] == 'timerange' %}
+    $(function() {
+        $('input[name="lvalue"]').daterangepicker({
+          timePicker: true,
+          startDate: moment().startOf('hour'),
+          endDate: moment().startOf('hour').add(32, 'hour'),
+          locale: {
+            format: 'M/DD/YYYY hh:mm A'
+          }
+        });
+      });
+    {% endif %}
+</script>
+
+{% with title=title %}{% include "footer.html" %}{% endwith %}

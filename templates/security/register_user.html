@@ -1,0 +1,58 @@
+{% with title="Register" %}{% include "header.html" %}{% endwith %}
+
+<div class="col col-11 page-top-box">
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 login-form">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    
+            <h2 class="page-head">
+                Register - Quantified Self App
+                <hr>
+            </h2>
+            </div>
+            <!--<hr class="my-4">-->
+            </div>
+            {% if form %}
+            {% for field, errors in form.errors.items() %}
+            <div class="alert alert-danger alert-dismissible fade show highest-index" role="alert">
+                <h4 class="alert-heading">Vaidation Error</h4> {{ form[field].label }}: {{ ', '.join(errors) }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+            {% endif %}
+    <form action="/register" method="POST" name="register_user_form">
+        <input id="next" name="next" type="hidden" value="/">
+
+        <div class="form-group">
+            <label for="username">Full Name</label>
+            <input class="form-control" placeholder="Abhay Chaudhary" id="username" name="username" required type="text" value="">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" placeholder="test@test.com" required type="text" value="" class="form-control">
+
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" class="form-control" placeholder="*****" maxlength="100" minlength="6" name="password" required type="password" value="">
+        </div>
+
+        <div class="form-group">
+            <label for="password_confirm">Retype Password</label>
+            <input id="password_confirm" placeholder="*****" name="password_confirm" class="form-control" required type="password" value="">
+        </div>
+
+        <div class="form-group"><input id="submit" name="submit" type="submit" value="Register"></div>
+
+    </form>
+
+Already signed up? <a href="/login?next=/">Login here</a><br />
+</div>
+</div>
+</div>
+
+{% with title="Register" %}{% include "footer.html" %}{% endwith %}

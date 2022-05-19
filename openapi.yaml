@@ -1,0 +1,1944 @@
+openapi: 3.0.0
+info:
+  title: QuantifiedSelf API
+  version: '1.2'
+  description: This api is made by Abhay Chaudhary to access QuantifiedSelf App with the help of API access.
+  contact:
+    name: Abhay Chaudhary
+servers:
+  - url: 'http://127.0.0.1:5000'
+    description: localhost
+paths:
+  /api/login:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    access_token: hsjjgdfwydgf
+                properties:
+                  access_token:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                required:
+                  - access_token
+                  - name
+              examples:
+                example-1:
+                  value:
+                    name: user1
+                    access_token: string
+        '400':
+          description: Bad Request; including validation errors
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: error occurred
+        '401':
+          description: Invalid username or password supplied
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: Bad username or password
+              examples:
+                login_error_401:
+                  value:
+                    msg: Bad username or password
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: Internal server error occurred
+              examples:
+                Internal Server Error:
+                  value:
+                    msg: Internal server error occurred
+      description: Login user and get JWT Authentication Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  username: test@test.com
+                  password: mypass
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - email
+                - password
+            examples:
+              example-1:
+                value:
+                  email: test@test.com
+                  password: mypassword
+  /api/tracker:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                x-examples:
+                  example-1:
+                    - id: 6
+                      name: Test Tracker 1
+                      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.'
+                      type: float
+                      settings:
+                        - abc
+                        - def
+                        - ghi
+                        - jkl
+                      choices: null
+                    - id: 8
+                      name: Test Tracker 1
+                      description: This is my description of a tracker
+                      type: ms
+                      settings:
+                        - abc
+                        - def
+                        - ghi
+                        - jkl
+                        - lmno
+                        - pqrstu
+                      choices:
+                        - id: 26
+                          value: xx1
+                        - id: 27
+                          value: xx256
+                        - id: 28
+                          value: xx3
+                        - id: 29
+                          value: xx4
+                    - id: 10
+                      name: API Test 4
+                      description: The description has been updated
+                      type: ms
+                      settings:
+                        - api1
+                        - api2
+                        - api3
+                      choices:
+                        - id: 55
+                          value: Eating
+                        - id: 56
+                          value: Pooping
+                        - id: 57
+                          value: Dancing
+                        - id: 58
+                          value: Running
+                    - id: 11
+                      name: API Test Integer
+                      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.'
+                      type: ms
+                      settings:
+                        - abc
+                        - def
+                        - ghi
+                        - jkl
+                        - lmno
+                        - pqrstu
+                      choices:
+                        - id: 87
+                          value: placeholder choice
+                    - id: 12
+                      name: Running
+                      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.'
+                      type: integer
+                      settings:
+                        - abc
+                        - def
+                        - ghi
+                        - jkl
+                        - lmno
+                        - pqrstu
+                      choices: null
+                    - id: 14
+                      name: abcdefghijklmnopqrstuvwxyz
+                      description: blah blah blah
+                      type: integer
+                      settings:
+                        - abc
+                        - def
+                        - ghi
+                        - jkl
+                        - lmno
+                        - pqrstu
+                      choices: null
+                    - id: 17
+                      name: Test Tracker 1 API
+                      description: This tracker is to be inserted into the database API.
+                      type: integer
+                      settings:
+                        - setting1
+                        - setting2
+                        - setting3
+                      choices: null
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    name:
+                      type: string
+                      minLength: 1
+                    description:
+                      type: string
+                      minLength: 1
+                      nullable: true
+                    type:
+                      type: string
+                      minLength: 1
+                    settings:
+                      type: array
+                      items:
+                        type: string
+                    choices:
+                      type: array
+                      nullable: true
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          value:
+                            type: string
+                  required:
+                    - id
+                    - name
+                    - description
+                    - type
+                    - settings
+              examples:
+                example-1:
+                  value:
+                    - id: 6
+                      name: Test Tracker 1
+                      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.'
+                      type: float
+                      settings:
+                        - abc
+                        - def
+                        - ghi
+                        - jkl
+                      choices: null
+                    - id: 8
+                      name: Test Tracker 1
+                      description: This is my description of a tracker
+                      type: ms
+                      settings:
+                        - abc
+                        - def
+                        - ghi
+                        - jkl
+                        - lmno
+                        - pqrstu
+                      choices:
+                        - id: 26
+                          value: xx1
+                        - id: 27
+                          value: xx256
+                        - id: 28
+                          value: xx3
+                        - id: 29
+                          value: xx4
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized Access
+        '404':
+          description: No trackers under current user found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: not found
+              examples:
+                example-1:
+                  value:
+                    msg: The resource was not found on this server
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: sdmk
+              examples:
+                example-1:
+                  value:
+                    msg: Internal Server error occurred
+      operationId: get-api-tracker
+      security:
+        - api_key_jwt: []
+      description: Get all the trackers registered under logged-in user
+    post:
+      summary: ''
+      operationId: post-api-tracker
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: added tracker
+              examples:
+                example-1:
+                  value:
+                    msg: added tracker
+        '400':
+          description: Bad Request; including validation errors
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: error occurred
+              examples:
+                example-1:
+                  value:
+                    msg: error occurred
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized Access
+        '500':
+          description: Internal Server Error
+      description: Add a new tracker under the logged-in user
+      security:
+        - api_key_jwt: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  name: Test Tracker API
+                  description: This was created using API
+                  type: integer
+                  settings:
+                    - s1
+                    - s2
+                    - s3
+              properties:
+                name:
+                  type: string
+                  minLength: 5
+                  maxLength: 55
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                type:
+                  type: string
+                  minLength: 1
+                settings:
+                  type: array
+                  items:
+                    type: string
+                    maxLength: 255
+                choices:
+                  type: array
+                  nullable: true
+                  items:
+                    type: string
+              required:
+                - name
+                - type
+                - settings
+            examples:
+              Multi Select Example:
+                value:
+                  name: Test Tracker API
+                  description: This was created using API
+                  type: ms
+                  settings:
+                    - s1
+                    - s2
+                    - s3
+                  choices:
+                    - xx1
+                    - xx2
+                    - xx3
+              Integer/Float Example:
+                value:
+                  name: Test Tracker API
+                  description: This was created using API
+                  type: integer
+                  settings:
+                    - s1
+                    - s2
+                    - s3
+                  choices: null
+        description: Details of tracker to be added
+  '/api/tracker/{tracker_id}':
+    parameters:
+      - schema:
+          type: string
+        name: tracker_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: 10
+                    name: API Test 4
+                    description: The description has been updated
+                    type: ms
+                    settings:
+                      - api1
+                      - api2
+                      - api3
+                    choices:
+                      - id: 55
+                        value: Eating
+                      - id: 56
+                        value: Pooping
+                      - id: 57
+                        value: Dancing
+                      - id: 58
+                        value: Running
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                    minLength: 1
+                  description:
+                    type: string
+                    minLength: 1
+                    nullable: true
+                  type:
+                    type: string
+                    minLength: 1
+                  settings:
+                    type: array
+                    items:
+                      type: string
+                  choices:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        value:
+                          type: string
+                          minLength: 1
+                      required:
+                        - id
+                        - value
+                required:
+                  - id
+                  - name
+                  - description
+                  - type
+                  - settings
+                  - choices
+              examples:
+                With choices:
+                  value:
+                    id: 10
+                    name: API Test 4
+                    description: The description has been updated
+                    type: ms
+                    settings:
+                      - api1
+                      - api2
+                      - api3
+                    choices:
+                      - id: 55
+                        value: Eating
+                      - id: 56
+                        value: Pooping
+                      - id: 57
+                        value: Dancing
+                      - id: 58
+                        value: Running
+                Without choices:
+                  value:
+                    id: 10
+                    name: API Test 4
+                    description: The description has been updated
+                    type: integer
+                    settings:
+                      - api1
+                      - api2
+                      - api3
+                    choices: null
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized access
+        '404':
+          description: No tracker with the id found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: The requested resource was not found
+              examples:
+                example-1:
+                  value:
+                    msg: The requested resource was not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: Internal server error occurred
+              examples:
+                example-1:
+                  value:
+                    msg: Internal server error occurred
+      operationId: get-api-tracker-tracker_id
+      description: get information of tracker with id as tracker_id
+      security:
+        - api_key_jwt: []
+    delete:
+      summary: ''
+      operationId: delete-api-tracker-tracker_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: success
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized Access
+        '404':
+          description: Tracker with given id was not found on the server
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: not found
+              examples:
+                example-1:
+                  value:
+                    msg: not found
+        '500':
+          description: Internal Server Error
+      description: Delete tracker with id = tracker_id
+      security:
+        - api_key_jwt: []
+    patch:
+      summary: ''
+      operationId: patch-api-tracker-tracker_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: success
+        '400':
+          description: Bad Request; Including validation errors
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: error occurred
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized access
+        '404':
+          description: No tracker with the given id found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: not found
+              examples:
+                example-1:
+                  value:
+                    msg: not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: error
+              examples:
+                example-1:
+                  value:
+                    msg: error occurred
+      description: update the parameters of a tracker with id=tracker_id
+      security:
+        - api_key_jwt: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  name: Test Tracker 1
+                  description: This is my description of a tracker
+                  type: ms
+                  settings:
+                    - abc
+                    - def
+                    - ghi
+                    - jkl
+                    - lmno
+                    - pqrstu
+                  choices:
+                    - id: 26
+                      value: xx1
+                    - id: 27
+                      value: xx256
+                    - id: 28
+                      value: xx3
+                    - id: 29
+                      value: xx4
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                description:
+                  type: string
+                  minLength: 1
+                type:
+                  type: string
+                  minLength: 1
+                  enum:
+                    - ms
+                    - integer
+                    - float
+                settings:
+                  type: array
+                  items:
+                    type: string
+                delete_choices:
+                  type: boolean
+                  description: 'if set to true, all choices can be deleted.'
+                choices:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        description: 'if id is null, new choice with name as ''new_name'' is added under the tracker.'
+                        nullable: true
+                      new_name:
+                        type: string
+                        minLength: 1
+                        description: 'if id is not null, and new_name is a 0-character string, the choice with the id is deleted.'
+  '/api/tracker/{tracker_id}/logs':
+    parameters:
+      - schema:
+          type: string
+        name: tracker_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                x-examples:
+                  example-1:
+                    - id: 24
+                      timestamp: '03/18/2022, 02:49:13 AM'
+                      note: i have changed the note using api
+                      value:
+                        - choice_id: 57
+                          choice_name: Dancing
+                    - id: 29
+                      timestamp: '03/18/2022, 01:58:22 PM'
+                      note: ''
+                      value:
+                        - choice_id: 56
+                          choice_name: Pooping
+                        - choice_id: 57
+                          choice_name: Dancing
+                        - choice_id: 58
+                          choice_name: Running
+                    - id: 31
+                      timestamp: '03/20/2022, 08:31:06 PM'
+                      note: blah blah blah
+                      value:
+                        - choice_id: 55
+                          choice_name: Eating
+                        - choice_id: 56
+                          choice_name: Pooping
+                    - id: 37
+                      timestamp: '03/21/2022, 07:41:14 PM'
+                      note: null
+                      value:
+                        - choice_id: 55
+                          choice_name: Eating
+                        - choice_id: 56
+                          choice_name: Pooping
+                        - choice_id: 57
+                          choice_name: Dancing
+                    - id: 39
+                      timestamp: '02/22/1998, 01:55:59 AM'
+                      note: api test 1
+                      value:
+                        - choice_id: 55
+                          choice_name: Eating
+                        - choice_id: 56
+                          choice_name: Pooping
+                        - choice_id: 57
+                          choice_name: Dancing
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    timestamp:
+                      type: string
+                      minLength: 1
+                    note:
+                      type: string
+                      nullable: true
+                    value:
+                      oneOf:
+                        - type: array
+                          items: {}
+                        - type: number
+                      uniqueItems: true
+                      minItems: 1
+                      items:
+                        type: object
+                        properties:
+                          choice_id:
+                            type: integer
+                          choice_name:
+                            type: string
+                            minLength: 1
+                        required:
+                          - choice_id
+                          - choice_name
+                    start:
+                      type: string
+                      description: Time range start value if tracker is timerange
+                    end:
+                      type: string
+                      description: Time range end value if tracker is timerange
+                  required:
+                    - id
+                    - timestamp
+                    - note
+              examples:
+                multi-select:
+                  value:
+                    - id: 24
+                      timestamp: '03/18/2022, 02:49:13 AM'
+                      note: i have changed the note using api
+                      value:
+                        - choice_id: 57
+                          choice_name: Dancing
+                    - id: 29
+                      timestamp: '03/18/2022, 01:58:22 PM'
+                      note: ''
+                      value:
+                        - choice_id: 56
+                          choice_name: Pooping
+                        - choice_id: 57
+                          choice_name: Dancing
+                        - choice_id: 58
+                          choice_name: Running
+                    - id: 31
+                      timestamp: '03/20/2022, 08:31:06 PM'
+                      note: blah blah blah
+                      value:
+                        - choice_id: 55
+                          choice_name: Eating
+                        - choice_id: 56
+                          choice_name: Pooping
+                    - id: 37
+                      timestamp: '03/21/2022, 07:41:14 PM'
+                      note: null
+                      value:
+                        - choice_id: 55
+                          choice_name: Eating
+                        - choice_id: 56
+                          choice_name: Pooping
+                        - choice_id: 57
+                          choice_name: Dancing
+                    - id: 39
+                      timestamp: '02/22/1998, 01:55:59 AM'
+                      note: api test 1
+                      value:
+                        - choice_id: 55
+                          choice_name: Eating
+                        - choice_id: 56
+                          choice_name: Pooping
+                        - choice_id: 57
+                          choice_name: Dancing
+                integer/float:
+                  value:
+                    - id: 25
+                      timestamp: '03/18/2022, 01:07:56 PM'
+                      note: 'I have run 50km, more than possible.'
+                      value: 50
+                timerange:
+                  value:
+                    - id: 49
+                      timestamp: '03/22/2022, 05:27:27 AM'
+                      note: val1
+                      start: '3/01/2022 05:00 AM'
+                      end: '3/30/2022 01:00 PM'
+                    - id: 50
+                      timestamp: '03/22/2022, 05:27:47 AM'
+                      note: val2
+                      start: '4/01/2022 05:00 AM'
+                      end: '4/30/2022 01:00 PM'
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized Access
+        '404':
+          description: No logs found under the given tracker id
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: not found
+              examples:
+                example-1:
+                  value:
+                    msg: not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: internal error
+              examples:
+                example-1:
+                  value:
+                    msg: internal error
+      operationId: get-api-tracker-tracker_id-logs
+      description: get all the logs registered under the tracker with id = tracker_id
+      security:
+        - api_key_jwt: []
+    post:
+      summary: ''
+      operationId: post-api-tracker-tracker_id-logs
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: success
+        '400':
+          description: Bad Request; Including validation error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: error occurred
+              examples:
+                example-1:
+                  value:
+                    msg: error occurred
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: not found
+              examples:
+                example-1:
+                  value:
+                    msg: not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: internal error
+              examples:
+                example-1:
+                  value:
+                    msg: internal error
+      description: Log value(s) under the tracker with given id
+      security:
+        - api_key_jwt: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  timestamp: '02/22/1998, 01:55:59 AM'
+                  note: api test 1
+                  value:
+                    - 55
+                    - 56
+                    - 57
+              properties:
+                timestamp:
+                  type: string
+                  minLength: 1
+                  format: date-time
+                note:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                value:
+                  oneOf:
+                    - type: array
+                      description: choice id to mark checked
+                      items:
+                        type: integer
+                    - type: number
+                      description: value in case of integer or float datatypes
+                    - type: string
+                      properties: {}
+                      description: 'Time in format "01/21/2022, 09:24 AM - 01/21/2022, 09:55 AM" in case of timerange'
+                      format: date-time
+                  description: 'If tracker is not multi-select, value takes integer/float figures. If it is multi-select, value takes an array of choices to mark ticked among choices registered under this tracker.'
+                  items:
+                    type: number
+              required:
+                - value
+  '/api/tracker/{tracker_id}/logs/{log_id}':
+    parameters:
+      - schema:
+          type: string
+        name: tracker_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: log_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: 24
+                    timestamp: '03/18/2022, 02:49:13 AM'
+                    note: i have changed the note using api
+                    value:
+                      - choice_id: 57
+                        choice_name: Dancing
+                properties:
+                  id:
+                    type: number
+                  timestamp:
+                    type: string
+                    minLength: 1
+                  note:
+                    type: string
+                    minLength: 1
+                    nullable: true
+                  value:
+                    oneOf:
+                      - type: array
+                        items: {}
+                      - type: number
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        choice_id:
+                          type: number
+                        choice_name:
+                          type: string
+                          minLength: 1
+                      required:
+                        - choice_id
+                        - choice_name
+                  start:
+                    type: string
+                    description: start value if tracker type is timerange
+                  end:
+                    type: string
+                    description: end value if tracker type is timerange
+                required:
+                  - id
+                  - timestamp
+                  - note
+              examples:
+                with choices:
+                  value:
+                    id: 24
+                    timestamp: '03/18/2022, 02:49:13 AM'
+                    note: i have changed the note using api
+                    value:
+                      - choice_id: 57
+                        choice_name: Dancing
+                without choices:
+                  value:
+                    id: 25
+                    timestamp: '03/18/2022, 01:07:56 PM'
+                    note: 'I have run 50km, more than possible.'
+                    value: 50
+                timerange:
+                  value:
+                    id: 60
+                    timestamp: '03/22/2022, 11:50:01 AM'
+                    note: null
+                    start: '01/21/2022, 09:24 AM'
+                    end: '03/21/2022, 10:59 AM'
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized Access
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: not found
+              examples:
+                example-1:
+                  value:
+                    msg: not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: error
+              examples:
+                example-1:
+                  value:
+                    msg: error
+      operationId: get-api-tracker-tracker_id-logs-log_id
+      description: get the information of log having id=log_id registered under tracker with id=tracker_id
+      security:
+        - api_key_jwt: []
+    delete:
+      summary: ''
+      operationId: delete-api-tracker-tracker_id-logs-log_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: success
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized Access
+        '404':
+          description: No logs found with given id under given tracker
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: error occurred
+      description: delete the log having id=log_id under tracker with id=tracker_id
+      security:
+        - api_key_jwt: []
+    patch:
+      summary: ''
+      operationId: patch-api-tracker-tracker_id-logs-log_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: success
+        '400':
+          description: Bad Request; Including validation errors
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: error occurred
+              examples:
+                example-1:
+                  value:
+                    msg: error occurred
+        '401':
+          description: Unauthorized; Token has not been created/expired.
+        '403':
+          description: Forbidden; Unauthorized access
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: success
+              examples:
+                example-1:
+                  value:
+                    msg: not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: error
+              examples:
+                example-1:
+                  value:
+                    msg: error
+      description: Update details of logs with id=log_id registered under tracker with id=tracker_id
+      security:
+        - api_key_jwt: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  timestamp: '01/10/1999, 01:10:59 AM'
+                  note: blah blah blah
+                  value:
+                    - 10
+                    - 20
+                    - 30
+                    - 40
+              properties:
+                timestamp:
+                  type: string
+                  minLength: 1
+                note:
+                  type: string
+                  minLength: 1
+                value:
+                  oneOf:
+                    - type: array
+                      description: 'in case of choices, put ids in array'
+                      items:
+                        type: integer
+                    - type: number
+                      description: in case of integer/float datatype
+                    - type: string
+                      properties: {}
+                      description: in case of timerange
+                  description: |-
+                    If multi-select type of tracker is there, value is an array of id of choices to be marked ticked.
+                    If other type, number is taken as input to store into the database.
+                  items:
+                    type: integer
+              required:
+                - value
+            examples:
+              with choices:
+                value:
+                  timestamp: '01/10/1999, 01:10:59 AM'
+                  note: blah blah blah
+                  value:
+                    - 10
+                    - 20
+                    - 30
+                    - 40
+              without choices:
+                value:
+                  timestamp: '01/10/1999, 01:10:59 AM'
+                  note: blah blah blah
+                  value: 24.56
+              timerange:
+                value:
+                  value: '01/21/2022, 09:24 AM - 01/21/2022, 11:24 AM'
+  /api/register:
+    post:
+      summary: ''
+      operationId: post-api-register
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: created
+              examples:
+                example-1:
+                  value:
+                    msg: created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - msg
+                x-examples:
+                  example-1:
+                    msg: created
+              examples:
+                email_exists:
+                  value:
+                    msg: email already exists
+        '500':
+          description: Internal Server Error
+      description: create a new user in the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                email:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - name
+                - email
+                - password
+              x-examples:
+                example-1:
+                  name: Abhay Chaudhary
+                  email: abhay@test.com
+                  password: abhaychaudhary
+            examples:
+              example-1:
+                value:
+                  name: Abhay Chaudhary
+                  email: abhay1@test.com
+                  password: abhaychaudhary
+  '/api/tracker/{tracker_id}/stats/{period}':
+    parameters:
+      - schema:
+          type: string
+        name: tracker_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: period
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    extra:
+                      mean: 104.26547215456938
+                      median: 106.588086217925
+                      25th: 54.53718388371103
+                      75th: 157.090280922693
+                    period: a
+                    total: 200
+                    chart:
+                      '2021-09-04': 170.440184881942
+                      '2021-09-05': 158.451991443385
+                      '2021-09-06': 188.548533033741
+                      '2021-09-07': 142.323771909688
+                      '2021-09-08': 100.076176926047
+                      '2021-09-09': 185.868618831364
+                      '2021-09-10': 73.5639925543514
+                      '2021-09-11': 29.9392068868921
+                      '2021-09-12': 82.7838450886314
+                      '2021-09-13': 112.543875669825
+                      '2021-09-14': 27.9966945415143
+                      '2021-09-15': 136.609841272092
+                      '2021-09-16': 90.9916816091186
+                      '2021-09-17': 191.916530622019
+                      '2021-09-18': 13.9446675652278
+                      '2021-09-19': 124.783587591226
+                      '2021-09-20': 1.8028935672938
+                      '2021-09-21': 1.49264391310813
+                      '2021-09-22': 54.5624646538914
+                      '2021-09-23': 43.8555479763778
+                      '2021-09-24': 181.042388443705
+                      '2021-09-25': 61.3581701569075
+                      '2021-09-26': 198.192663081604
+                      '2021-09-27': 137.742924701931
+                      '2021-09-28': 181.962268995737
+                      '2021-09-29': 179.063268841294
+                      '2021-09-30': 189.733407027028
+                      '2021-10-01': 163.919296773048
+                      '2021-10-02': 47.4323452130809
+                      '2021-10-03': 130.896345935132
+                      '2021-10-04': 76.7322452968704
+                      '2021-10-05': 10.1420845070991
+                      '2021-10-06': 141.088059349307
+                      '2021-10-07': 73.8468838419842
+                      '2021-10-08': 34.4746271205729
+                      '2021-10-09': 29.1539402725932
+                      '2021-10-10': 54.4613415731699
+                      '2021-10-11': 76.7008704038378
+                      '2021-10-12': 89.8959531248395
+                      '2021-10-13': 131.449422709956
+                      '2021-10-14': 140.981226084031
+                      '2021-10-15': 46.3967664866627
+                      '2021-10-16': 122.849103483293
+                      '2021-10-17': 128.360611806593
+                      '2021-10-18': 100.812206415153
+                      '2021-10-19': 174.121828066464
+                      '2021-10-20': 50.0346043911533
+                      '2021-10-21': 91.9612440013687
+                      '2021-10-22': 173.996541646788
+                      '2021-10-23': 52.8182174587258
+                      '2021-10-24': 113.15063398649
+                      '2021-10-25': 107.344257905607
+                      '2021-10-26': 156.997557560476
+                      '2021-10-27': 52.0798381921015
+                      '2021-10-28': 137.32080221764
+                      '2021-10-29': 123.418889090774
+                      '2021-10-30': 50.0087357734078
+                      '2021-10-31': 175.172077185598
+                      '2021-11-01': 128.739835366226
+                      '2021-11-02': 34.2598334696781
+                      '2021-11-03': 17.1611090737709
+                      '2021-11-04': 196.062592787058
+                      '2021-11-05': 96.6932143348195
+                      '2021-11-06': 7.2959219057563
+                      '2021-11-07': 140.517850924214
+                      '2021-11-08': 51.5840029756072
+                      '2021-11-09': 2.17267971277273
+                      '2021-11-10': 16.5915997892815
+                      '2021-11-11': 131.13129823769
+                      '2021-11-12': 123.441240047864
+                      '2021-11-13': 161.439502766685
+                      '2021-11-14': 87.3236073832282
+                      '2021-11-15': 118.6513839617
+                      '2021-11-16': 187.685678127957
+                      '2021-11-17': 198.446241650357
+                      '2021-11-18': 2.0972061690526
+                      '2021-11-19': 176.571921265624
+                      '2021-11-20': 179.109335303817
+                      '2021-11-21': 182.808411729103
+                      '2021-11-22': 193.072792836287
+                      '2021-11-23': 99.5071715627212
+                      '2021-11-24': 139.59210362987
+                      '2021-11-25': 151.335984893022
+                      '2021-11-26': 28.9356942484522
+                      '2021-11-27': 156.615950142774
+                      '2021-11-28': 77.0228054630739
+                      '2021-11-29': 126.63649644584
+                      '2021-11-30': 103.694983548611
+                      '2021-12-01': 81.3727971133543
+                      '2021-12-02': 12.6531899349908
+                      '2021-12-03': 178.35536561891
+                      '2021-12-04': 155.075185878078
+                      '2021-12-05': 183.795923450123
+                      '2021-12-06': 168.306651925064
+                      '2021-12-07': 34.8693384981451
+                      '2021-12-08': 176.868139769248
+                      '2021-12-09': 21.273314208043
+                      '2021-12-10': 0.216147437689296
+                      '2021-12-11': 130.72566816316
+                      '2021-12-12': 60.526331852527
+                      '2021-12-13': 188.594299596175
+                      '2021-12-14': 185.433175921139
+                      '2021-12-15': 67.2434765859124
+                      '2021-12-16': 88.598381197778
+                      '2021-12-17': 187.786560839223
+                      '2021-12-18': 77.3582683344858
+                      '2021-12-19': 5.60328023157945
+                      '2021-12-20': 142.168272725149
+                      '2021-12-21': 81.1556135353547
+                      '2021-12-22': 118.316992351457
+                      '2021-12-23': 12.7596046339878
+                      '2021-12-24': 67.5809408446481
+                      '2021-12-25': 84.6505202457874
+                      '2021-12-26': 145.496438591686
+                      '2021-12-27': 55.4646417459583
+                      '2021-12-28': 175.109860063288
+                      '2021-12-29': 15.8670002016489
+                      '2021-12-30': 172.668479201638
+                      '2021-12-31': 143.235277426632
+                      '2022-01-01': 132.486264522485
+                      '2022-01-02': 76.3403237375323
+                      '2022-01-03': 147.014608573338
+                      '2022-01-04': 140.4917281056
+                      '2022-01-05': 71.8334312005747
+                      '2022-01-06': 40.7445146200246
+                      '2022-01-07': 108.933203037147
+                      '2022-01-08': 130.811007791673
+                      '2022-01-09': 10.0431317080017
+                      '2022-01-10': 128.626840942948
+                      '2022-01-11': 84.8942406106634
+                      '2022-01-12': 73.905356319492
+                      '2022-01-13': 81.0553399997869
+                      '2022-01-14': 191.239051547547
+                      '2022-01-15': 194.936781715777
+                      '2022-01-16': 192.818883057815
+                      '2022-01-17': 7.12194733658651
+                      '2022-01-18': 146.373706685172
+                      '2022-01-19': 157.368451009344
+                      '2022-01-20': 116.734878934557
+                      '2022-01-21': 139.526676717867
+                      '2022-01-22': 72.2088839737744
+                      '2022-01-23': 68.2479388770318
+                      '2022-01-24': 135.516313732889
+                      '2022-01-25': 181.813103771476
+                      '2022-01-26': 163.22618873117
+                      '2022-01-27': 68.5779255234778
+                      '2022-01-28': 76.368982397451
+                      '2022-01-29': 142.914167596845
+                      '2022-01-30': 56.0228203996195
+                      '2022-01-31': 161.45082495371
+                      '2022-02-01': 32.7072745399526
+                      '2022-02-02': 186.673520415048
+                      '2022-02-03': 144.648164772798
+                      '2022-02-04': 33.8034061963619
+                      '2022-02-05': 168.180367756995
+                      '2022-02-06': 164.183690680018
+                      '2022-02-07': 14.9102444305359
+                      '2022-02-08': 184.343071011084
+                      '2022-02-09': 168.419342908897
+                      '2022-02-10': 39.7390816847196
+                      '2022-02-11': 65.8185321804089
+                      '2022-02-12': 194.557169248714
+                      '2022-02-13': 9.41170463614942
+                      '2022-02-14': 81.3438594156728
+                      '2022-02-15': 44.7692199151592
+                      '2022-02-16': 65.6780500151958
+                      '2022-02-17': 168.804431338718
+                      '2022-02-18': 8.56593821680642
+                      '2022-02-19': 59.7410414889247
+                      '2022-02-20': 143.810658897857
+                      '2022-02-21': 79.6746873948114
+                      '2022-02-22': 138.331648317011
+                      '2022-02-23': 39.6716919107581
+                      '2022-02-24': 147.828194362451
+                      '2022-02-25': 102.355881067313
+                      '2022-02-26': 187.35613664963
+                      '2022-02-27': 151.668333635763
+                      '2022-02-28': 171.363037156583
+                      '2022-03-01': 134.938850199437
+                      '2022-03-02': 38.6535689786694
+                      '2022-03-03': 184.633930378748
+                      '2022-03-04': 77.9337942979971
+                      '2022-03-05': 14.6360269630892
+                      '2022-03-06': 6.35948602472938
+                      '2022-03-07': 12.8367725069337
+                      '2022-03-08': 35.2564180207537
+                      '2022-03-09': 157.642765463167
+                      '2022-03-10': 154.25242656936
+                      '2022-03-11': 126.082263071935
+                      '2022-03-12': 105.831914530243
+                      '2022-03-13': 86.0868122917487
+                      '2022-03-14': 72.3166163375607
+                      '2022-03-15': 25.9666339591464
+                      '2022-03-16': 161.648840510533
+                      '2022-03-17': 57.4827111882456
+                      '2022-03-18': 71.3520966384485
+                      '2022-03-19': 24.690406891783
+                      '2022-03-20': 66.4643986712172
+                      '2022-03-21': 22.4747123777939
+                      '2022-03-22': 62.6090991310886
+                properties:
+                  extra:
+                    type: object
+                    properties:
+                      mean:
+                        type: number
+                      median:
+                        type: number
+                      25th:
+                        type: number
+                      75th:
+                        type: number
+                  period:
+                    type: string
+                    minLength: 1
+                  total:
+                    type: number
+                  chart:
+                    anyOf:
+                      - type: object
+                      - type: array
+                        items:
+                          type: object
+                required:
+                  - extra
+                  - period
+                  - total
+                  - chart
+              examples:
+                integer/decimal:
+                  value:
+                    extra:
+                      mean: 104.26547215456938
+                      median: 106.588086217925
+                      25th: 54.53718388371103
+                      75th: 157.090280922693
+                    period: a
+                    total: 200
+                    chart:
+                      '2021-09-04': 170.440184881942
+                      '2021-09-05': 158.451991443385
+                multi-choice:
+                  value:
+                    extra: {}
+                    period: a
+                    total: 7
+                    chart:
+                      Dancing: 6
+                      Eating: 5
+                      Pooping: 6
+                      Running?: 1
+                time-range:
+                  value:
+                    extra: {}
+                    period: a
+                    total: 25
+                    chart:
+                      - id: 14862
+                        note: Auto Value 1
+                        start: '10/11/2020 02:23 PM'
+                        end: '04/05/2021 02:23 PM'
+                      - id: 14863
+                        note: Auto Value 2
+                        start: '07/19/2019 02:23 PM'
+                        end: '03/10/2022 02:23 PM'
+                      - id: 14864
+                        note: Auto Value 3
+                        start: '03/16/2020 02:23 PM'
+                        end: '04/09/2020 02:23 PM'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-api-tracker-tracker_id-stats-period
+      description: |-
+        Show statistics of tracker with id=tracker_id within period.
+        Period can be 'd', 'w', 'm', 'a' for day, week, month, all respectively.
+components:
+  schemas: {}
+  securitySchemes:
+    api_key_jwt:
+      type: http
+      scheme: bearer
+security:
+  - api_key_jwt: []

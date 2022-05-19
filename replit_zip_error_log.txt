@@ -1,0 +1,3 @@
+{"error":".zip archives do not support non-regular files","level":"error","msg":"unable to write file .env/bin/python","time":"2022-05-19T08:55:03Z"}
+{"error":".zip archives do not support non-regular files","level":"error","msg":"unable to write file .env/bin/python3","time":"2022-05-19T08:55:03Z"}
+{"error":".zip archives do not support non-regular files","level":"error","msg":"unable to write file .env/lib64","time":"2022-05-19T08:55:03Z"}

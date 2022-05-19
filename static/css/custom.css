@@ -1,0 +1,84 @@
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.icon-right {
+    float: right;
+    margin-top: 2px;
+    margin-right: -6px;
+}
+
+.page-head{
+    margin:20px;
+}
+
+.highest-index{
+    position: relative;
+    z-index: 100;
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+.csidebarfirst{
+    padding: 10px;
+}
+
+.csidebar{
+    padding: 10px;
+    margin-top:20px;
+}
+
+.cchart{
+    padding: 10px;
+    background-color: #f7f7f7;
+}
+
+.morris-hover {
+    position:absolute;
+    z-index:1000;
+  }
+  
+.morris-hover.morris-default-style {     border-radius:10px;
+padding:6px;
+color:#666;
+background:rgba(255, 255, 255, 0.8);
+border:solid 2px rgba(230, 230, 230, 0.8);
+font-family:sans-serif;
+font-size:12px;
+text-align:center;
+}
+
+.morris-hover.morris-default-style .morris-hover-row-label {
+font-weight:bold;
+margin:0.25em 0;
+}
+
+.morris-hover.morris-default-style .morris-hover-point {
+white-space:nowrap;
+margin:0.1em 0;
+}
+
+svg { width: 100%; }
+
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}
+
+
+.login-form{
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.page-top-box{
+    margin-top: 50px;
+}
